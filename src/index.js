@@ -4,10 +4,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { userReducer } from "./redux/reducers/userReducer";
+import { tableReducer } from "./redux/reducers/tableReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(userReducer, composeWithDevTools());
+const store = createStore(tableReducer, composeWithDevTools());
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

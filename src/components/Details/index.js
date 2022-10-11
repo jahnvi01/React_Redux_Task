@@ -1,91 +1,97 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { notification, Space, Spin, Table, Tooltip } from "antd";
-import { getOrdersByUser } from "../../services/api";
-import {
-  fetchUserDetails,
-  fetchUserOrderDetails,
-  setLoading,
-} from "../../actions/users";
-import { EyeOutlined } from "@ant-design/icons";
-import moment from "moment";
+import { notification, Spin } from "antd";
+import { getAllTables } from "../../services/api";
+import { fetchSelectedRecord, setLoading } from "../../actions/tableActions";
+import Table from "../Table";
+import { View2 } from "../../data";
+import BasicTable from "../Table/BasicTable";
+import BreadCrumbMenu from "../BreadCrumb";
+import { useParams } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.selectedUser);
+  const params = useParams();
+  const componentData = useSelector((state) => state.componentData);
   const loading = useSelector((state) => state.loading);
-  const orders = useSelector((state) => state.orders);
-
-  const userColumns = [
-    {
-      title: "First Name",
-      dataIndex: "firstName",
-      key: "firstName",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Last Name",
-      dataIndex: "firstName",
-      key: "firstName",
-    },
-    {
-      title: "Birth Date",
-      dataIndex: "birthDate",
-      key: "birthDate",
-      render: (_, record) => <span>{moment(_).format("YYYY/MM/DD")}</span>,
-    },
-  ];
-
-  const orderColumns = [
-    {
-      title: "Product Name",
-      dataIndex: "product",
-      key: "product",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Creation Date",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (_, record) => <span>{moment(_).format("YYYY/MM/DD")}</span>,
-    },
-  ];
+  const selectedRow = useSelector((state) => state.selectedRow);
+  const [viewDetail, setViewDetail] = useState({});
+  const [componentTables, setcomponentTables] = useState([]);
+  const [componentTableRow, setcomponentTableRow] = useState();
 
   useEffect(() => {
-    const fetchUsersList = async () => {
-      if (!user) return;
+    setcomponentTables(componentData);
+    setcomponentTableRow(selectedRow);
+    const fetchTable = async () => {
       dispatch(setLoading(true));
-      const res = await getOrdersByUser(user.id);
-      if (res?.data) {
-        dispatch(fetchUserOrderDetails(res.data));
+      const res = await getAllTables(View2);
+      if (res) {
+        setViewDetail(res);
+        dispatch(setLoading(false));
       } else {
         notification.error({ message: "Something went wrong!" });
         dispatch(setError(true));
       }
     };
-    fetchUsersList();
-  }, [dispatch, user]);
+    fetchTable();
+  }, []);
+
+  const handleRowClick = (record) => {
+    dispatch(fetchSelectedRecord(record));
+  };
 
   return (
     <div className="container">
-      {loading && !user ? (
+      <BreadCrumbMenu
+        list={[
+          {
+            title: "View1",
+            link: "/",
+          },
+          {
+            title: "View2",
+            link: "/details/" + params.id,
+          },
+        ]}
+      />
+      {loading ? (
         <Spin size="large" />
       ) : (
-        <>
-          <Table columns={userColumns} dataSource={[user]} />
-          <br />
-          <Table columns={orderColumns} dataSource={orders} />
-        </>
+        <Table
+          loading={loading}
+          tabledetail={viewDetail}
+          handleRowClick={handleRowClick}
+          filter={selectedRow?.id}
+        />
+      )}
+      {componentTables?.length &&
+        componentTables
+          .filter(
+            (table) =>
+              !viewDetail?.view?.tables
+                .map((tb) => tb.table.slug)
+                ?.includes(table.slug)
+          )
+          .map((table) => (
+            <BasicTable tableDetail={table?.data} title={table.slug} />
+          ))}
+      {componentTableRow && (
+        <BasicTable
+          tableDetail={{
+            result: [componentTableRow],
+            columns: Object.keys(componentTableRow).map((key, i) => ({
+              dataIndex: key,
+              id: i,
+              key: key,
+              label: key,
+              name: key,
+              order: 10,
+              title: key,
+              type: "text",
+            })),
+          }}
+          title={"Selected Row"}
+        />
       )}
     </div>
   );

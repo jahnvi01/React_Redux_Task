@@ -1,28 +1,20 @@
 import {
   SET_ERROR,
   SET_LOADING,
-  SET_SELECTED_USER,
-  SET_USERS,
-  SET_USER_ORDER_DETAILS,
+  SET_SELECTED_ROW,
+  SET_COMPONENT_DATA,
 } from "./types";
 
-export const fetchUsers = (data) => {
+export const fetchComponentData = (data) => {
   return {
-    type: SET_USERS,
+    type: SET_COMPONENT_DATA,
     payload: data,
   };
 };
 
-export const fetchUserDetails = (data) => {
+export const fetchSelectedRecord = (data) => {
   return {
-    type: SET_SELECTED_USER,
-    payload: data,
-  };
-};
-
-export const fetchUserOrderDetails = (data) => {
-  return {
-    type: SET_USER_ORDER_DETAILS,
+    type: SET_SELECTED_ROW,
     payload: data,
   };
 };
