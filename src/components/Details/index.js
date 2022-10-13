@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notification, Spin } from "antd";
-import { getAllTables } from "../../services/api";
+import { getViewData } from "../../services/api";
 import { fetchSelectedRecord, setLoading } from "../../actions/tableActions";
 import Table from "../Table";
-import { View2 } from "../../data";
+import { View2Slug } from "../../data";
 import BasicTable from "../Table/BasicTable";
 import BreadCrumbMenu from "../BreadCrumb";
 import { useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ const Products = () => {
     setcomponentTableRow(selectedRow);
     const fetchTable = async () => {
       dispatch(setLoading(true));
-      const res = await getAllTables(View2);
+      const res = await getViewData(View2Slug);
       if (res) {
         setViewDetail(res);
         dispatch(setLoading(false));

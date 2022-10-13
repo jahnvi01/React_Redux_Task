@@ -6,23 +6,29 @@ import {
   fetchSelectedRecord,
   setError,
   setLoading,
+  setView,
 } from "../../actions/tableActions";
 import { useHistory } from "react-router-dom";
-import { View1Slug } from "../../data";
+import { View1Slug, View2Slug } from "../../data";
 import Table from "../Table";
 import BreadCrumbMenu from "../BreadCrumb";
+import Node from "./node";
 
-const Home = () => {
+const View = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const selectedRow = useSelector((state) => state.selectedRow);
+  const views = useSelector((state) => state.views);
   const loading = useSelector((state) => state.loading);
   const [viewDetail, setViewDetail] = useState({});
+  const currentView = views?.length ? views[views.length - 1] : null;
 
   useEffect(() => {
     const fetchTableList = async () => {
+      if (currentView === viewDetail?.slug) return;
       dispatch(setLoading(true));
-      const res = await getViewData(View1Slug);
+
+      const res = await getViewData(currentView || View1Slug);
       if (res) {
         setViewDetail(res);
         dispatch(setLoading(false));
@@ -32,27 +38,25 @@ const Home = () => {
       }
     };
     fetchTableList();
-  }, []);
+  }, [currentView]);
+
+  useEffect(() => {
+    if (viewDetail?.slug && viewDetail.slug !== currentView) {
+      dispatch(setView(viewDetail.slug));
+    }
+  }, [viewDetail]);
 
   const handleRowClick = (record) => {
     dispatch(fetchSelectedRecord(record));
-    history.push(`/details/${record.id}`);
   };
 
   return (
     <div className="container">
-      <BreadCrumbMenu
-        list={[
-          {
-            title: "View1",
-            link: "/",
-          },
-        ]}
-      />
+      {viewDetail && <BreadCrumbMenu />}
       {loading ? (
         <Spin size="large" />
       ) : (
-        <Table
+        <Node
           loading={loading}
           tabledetail={viewDetail}
           handleRowClick={handleRowClick}
@@ -62,4 +66,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default View;

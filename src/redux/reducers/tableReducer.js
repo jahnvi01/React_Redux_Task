@@ -3,10 +3,13 @@ import {
   SET_LOADING,
   SET_SELECTED_ROW,
   SET_COMPONENT_DATA,
+  SET_VIEW,
+  GET_VIEW,
 } from "../../actions/types";
 
 const initialState = {
   componentData: [],
+  views: [],
   selectedRow: null,
   loading: false,
   error: false,
@@ -45,6 +48,17 @@ export const tableReducer = (state = initialState, action) => {
     case SET_ERROR:
       state = { ...state, error: action.payload };
       return state;
+    case SET_VIEW:
+      let views = state.views;
+
+      const index = views.indexOf(action.payload);
+      if (index === -1) {
+        views = [...views, action.payload];
+      } else {
+        views = views.slice(0, index);
+      }
+      state = { ...state, views: views };
+
     default:
       return state;
   }

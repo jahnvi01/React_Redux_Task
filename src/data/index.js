@@ -1,8 +1,12 @@
-export const View1 = "View1";
-export const View2 = "View2";
+export const View1Slug = "test-view1";
+export const View2Slug = "test-view2";
 export const TableSlug1 = "test-view1";
 export const TableSlug2 = "test-view2";
 export const TableSlug3 = "test-view3";
+export const StatisticSlug1 = "statistic-1";
+export const StatisticSlug2 = "statistic-2";
+export const StatisticSlug3 = "statistic-3";
+export const StatisticSlug4 = "statistic-4";
 
 export const view1Data = {
   description: null,
@@ -13,27 +17,13 @@ export const view1Data = {
     id: "1",
     name: "Test View1",
     slug: "test-views1",
-    tables: [
+    nodes: [
       {
         order_number: 1,
-        size: null,
-        table: {
-          id: "1939184701937",
-          name: "Test View1",
-          node_type: "table",
-          order_number: 1,
-          slug: "test-view1",
-          table: {
-            title: "Test Table1",
-          },
-        },
-      },
-      {
-        order_number: 2,
-        size: null,
-        table: {
+        size: 24,
+        node: {
           id: "1939184701938",
-          name: "Test View2",
+          name: "Test View1",
           node_type: "table",
           order_number: 2,
           slug: "test-view2",
@@ -66,18 +56,93 @@ export const view2Data = {
     id: "1",
     name: "Test View2",
     slug: "test-views2",
-    tables: [
+    nodes: [
       {
         order_number: 3,
+        size: 6, // Assume a page size is 24
+        node: {
+          id: "1939184701938",
+          name: "Test View2",
+          node_type: "statistic", // https://ant.design/components/statistic/
+          order_number: 2,
+          slug: "statistic-1",
+        },
+      },
+      {
+        order_number: 3,
+        size: 6,
+        node: {
+          id: "1939184701938",
+          name: "Test View2",
+          node_type: "statistic",
+          order_number: 2,
+          slug: "statistic-2", // https://ant.design/components/statistic/
+        },
+      },
+      {
+        order_number: 3,
+        size: 6,
+        node: {
+          id: "1939184701938",
+          name: "Test View2",
+          node_type: "statistic", // https://ant.design/components/statistic/
+          order_number: 2,
+          slug: "statistic-3",
+        },
+      },
+      {
+        order_number: 3,
+        size: 6,
+        node: {
+          id: "1939184701938",
+          name: "Test View2",
+          node_type: "statistic", // https://ant.design/components/statistic/
+          order_number: 2,
+          slug: "statistic-4",
+        },
+      },
+      {
+        order_number: 4,
+        size: 12,
+        height: 8, // Assume one full screen is 24
+        node: {
+          id: "1939184701938",
+          name: "Test ",
+          node_type: "group-column-chart", // https://charts.ant.design/en/examples/column/grouped#basic
+          order_number: 2,
+          slug: "group-column-chart-1",
+          node_type: "chart",
+          table: {
+            title: "Test Chart",
+          },
+        },
+      },
+      {
+        order_number: 4,
+        size: 12,
+        height: 8, // Assume one full screen is 24
+        node: {
+          id: "1939184701938",
+          name: "Test ",
+          node_type: "list", //https://ant.design/components/list/ - one with title and description
+          order_number: 2,
+          slug: "list-view1",
+          table: {
+            title: "List",
+          },
+        },
+      },
+      {
+        order_number: 1,
         size: null,
-        table: {
-          id: "1939184701939",
-          name: "Test View3",
+        node: {
+          id: "1939184701937",
+          name: "Test View2",
           node_type: "table",
-          order_number: 3,
+          order_number: 1,
           slug: "test-view3",
           table: {
-            title: "Test Table3",
+            title: "Test Table1",
           },
         },
       },
@@ -110,7 +175,7 @@ export const table1Data = {
         description: "View 1",
         id: "23232",
         name: "View 1",
-        slug: "details",
+        slug: "test-view2",
       },
       type: "view",
     },
@@ -171,7 +236,24 @@ export const table1Data = {
 };
 
 export const table2Data = {
-  actions: [],
+  actions: [
+    {
+      id: 773113,
+      location: "per_row",
+      mapping: {
+        id: "d_id",
+      },
+      name: "View 1",
+      slug: "view-details",
+      view: {
+        description: "View 1",
+        id: "23232",
+        name: "View 1",
+        slug: "test-view2",
+      },
+      type: "view",
+    },
+  ],
   columns: [
     {
       dataIndex: "gender",
@@ -241,7 +323,6 @@ export const table3Data = {
         description: "View 1",
         id: "23232",
         name: "View 1",
-        slug: "details",
       },
       type: "view",
     },
@@ -298,41 +379,136 @@ export const table3Data = {
       street_address: "1432832 test ST APT 214",
       zip: "90503",
     },
+  ],
+};
+
+export const statistic1Data = {
+  title: "Statistic 1",
+  value: "Value 1",
+};
+
+export const statistic2Data = {
+  title: "Statistic 2",
+  value: "Value 2",
+};
+
+export const statistic3Data = {
+  title: "Statistic 3",
+  value: "Value 3",
+};
+
+export const statistic4Data = {
+  title: "Statistic 4",
+  value: "Value 4",
+};
+
+export const groupcolumnData = {
+  config: {
+    isGroup: true,
+    xField: "xval",
+    yField: "yval",
+    seriesField: "series",
+    width: 600,
+  },
+  data: [
     {
-      account_number: "3741237461278",
-      id: 2873821321,
-      street_address: "221 bakers street",
-      zip: "90201",
+      name: "London",
+      xval: "Jan.",
+      yval: 18.9,
     },
     {
-      account_number: "3741237461278",
-      id: 2873821322,
-      street_address: "221 bakers street",
-      zip: "90201",
+      name: "London",
+      xval: "Feb.",
+      yval: 28.8,
     },
     {
-      account_number: "3741237461278",
-      id: 2873821323,
-      street_address: "221 bakers street",
-      zip: "90201",
+      name: "London",
+      xval: "Mar.",
+      yval: 39.3,
     },
     {
-      account_number: "3741237461278",
-      id: 2873821321,
-      street_address: "21 beverly hills, CA",
-      zip: "21204",
+      name: "London",
+      xval: "Apr.",
+      yval: 81.4,
     },
     {
-      account_number: "3741237461278",
-      id: 2873821322,
-      street_address: "21 beverly hills, CA",
-      zip: "21204",
+      name: "London",
+      xval: "May",
+      yval: 47,
     },
     {
-      account_number: "3741237461278",
-      id: 2873821323,
-      street_address: "21 beverly hills, CA",
-      zip: "21204",
+      name: "London",
+      xval: "Jun.",
+      yval: 20.3,
+    },
+    {
+      name: "London",
+      xval: "Jul.",
+      yval: 24,
+    },
+    {
+      name: "London",
+      xval: "Aug.",
+      yval: 35.6,
+    },
+    {
+      name: "Berlin",
+      xval: "Jan.",
+      yval: 12.4,
+    },
+    {
+      name: "Berlin",
+      xval: "Feb.",
+      yval: 23.2,
+    },
+    {
+      name: "Berlin",
+      xval: "Mar.",
+      yval: 34.5,
+    },
+    {
+      name: "Berlin",
+      xval: "Apr.",
+      yval: 99.7,
+    },
+    {
+      name: "Berlin",
+      xval: "May",
+      yval: 52.6,
+    },
+    {
+      name: "Berlin",
+      xval: "Jun.",
+      yval: 35.5,
+    },
+    {
+      name: "Berlin",
+      xval: "Jul.",
+      yval: 37.4,
+    },
+    {
+      series: "Berlin",
+      xval: "Aug.",
+      yval: 42.4,
     },
   ],
 };
+
+export const listdata = [
+  {
+    title: "Ant Design Title 1",
+    description: "Ant Design Title 1",
+  },
+  {
+    title: "Ant Design Title 2",
+    description: "Ant Design Title 1",
+  },
+  {
+    title: "Ant Design Title 3",
+    description: "Ant Design Title 1",
+  },
+  {
+    title: "Ant Design Title 4",
+    description: "Ant Design Title 1",
+  },
+];
